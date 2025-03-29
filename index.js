@@ -3,12 +3,12 @@ const express = require("express");
 require("dotenv").config();
 const cors = require("cors");
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 // console.log(portz);
 
 app.use(
   cors({
-    origin: "https://my-mdb-lemon.vercel.app",
+    origin: ["https://my-mdb-lemon.vercel.app/", "http://127.0.0.1:5500"],
     optionsSuccessStatus: 200,
   })
 );
@@ -34,9 +34,23 @@ const getPopularMovies = async () => {
 };
 
 app.get("/popularMovies", async (req, res) => {
-  const data = await getPopularMovies();
-  res.json(data);
+  try {
+    const data = await getPopularMovies();
+
+    if (data.error) {
+      return res.status(500).json({ error: "Failed to fetch movies" });
+    }
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error in /popularMovies route:", error);
+    res.status(500).json({ error: "Server error" });
+  }
 });
+// app.get("/popularMovies", async (req, res) => {
+//   const data = await getPopularMovies();
+//   res.json(data);
+// });
 
 // old code
 app.get("/", (req, res) => {
