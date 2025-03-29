@@ -8,7 +8,7 @@ const port = process.env.PORT;
 
 app.use(
   cors({
-    origin: "https://my-mdb-lemon.vercel.app/",
+    origin: "https://my-mdb-lemon.vercel.app",
     optionsSuccessStatus: 200,
   })
 );
