@@ -5,6 +5,32 @@ const app = express();
 const port = process.env.PORT;
 // console.log(portz);
 
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${process.env.API_KEY}`,
+  },
+};
+
+const getPopularMovies = async () => {
+  const respose = await fetch(
+    "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
+    options
+  );
+
+  console.log("fetchingMovies");
+  const data = await respose.json();
+
+  return data;
+};
+
+app.get("/popularMovies", async (req, res) => {
+  const data = await getPopularMovies();
+  res.json(data);
+});
+
+// old code
 app.get("/", (req, res) => {
   res.send("<h1>This is a Movie Database</h1>");
 });
