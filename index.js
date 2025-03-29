@@ -6,14 +6,14 @@ const port = process.env.PORT;
 // console.log(portz);
 
 app.get("/", (req, res) => {
-  res.send(<h1>This is a Movie Database</h1>);
+  res.send("<h1>This is a Movie Database</h1>");
 });
 
 app.get("/movieNames", (req, res) => {
-  res.send("we will add movies later!");
+  res.send("<h1>we will add movies later!</h1>");
 });
 app.get("/TvNames", (req, res) => {
-  res.send("we will add TVs later!");
+  res.send("<h1>we will add TVs later! </h1>");
 });
 
 app.listen(port, () => {
