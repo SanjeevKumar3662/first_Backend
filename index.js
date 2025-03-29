@@ -1,9 +1,17 @@
 // console.log("hello world is running");
 const express = require("express");
 require("dotenv").config();
+const cors = require("cors");
 const app = express();
 const port = process.env.PORT;
 // console.log(portz);
+
+app.use(
+  cors({
+    origin: "http://127.0.0.1:5500",
+    optionsSuccessStatus: 200,
+  })
+);
 
 const options = {
   method: "GET",
