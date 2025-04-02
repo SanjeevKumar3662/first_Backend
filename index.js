@@ -78,35 +78,35 @@ app.get("/popularTV", async (req, res) => {
   }
 });
 
-// //Get Movie Details
-// const getMovieDetails = async (id) => {
-//   const response = await fetch(
-//     `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
-//     movieID
-//   );
+//Get Movie Details
+const getMovieDetails = async (id) => {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
+    options
+  );
 
-//   console.log("fetchingMovieDetails");
-//   const data = await response.json();
+  console.log("fetchingMovieDetails");
+  const data = await response.json();
 
-//   return data;
-// };
+  return data;
+};
 
-// app.get("/movieDetails", async (req, res) => {
-//   const { id } = req.query;
-//   console.log(id);
-//   try {
-//     const data = await getMovieDetails(id);
+app.get("/movieDetails/:id", async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  try {
+    const data = await getMovieDetails(id);
 
-//     if (data.error) {
-//       return res.status(500).json({ error: "Failed to fetch movie details" });
-//     }
+    if (data.error) {
+      return res.status(500).json({ error: "Failed to fetch movie details" });
+    }
 
-//     res.json(data);
-//   } catch (error) {
-//     console.error("Error in /movieDetails route:", error);
-//     res.status(500).json({ error: "Server error" });
-//   }
-// });
+    res.json(data);
+  } catch (error) {
+    console.error("Error in /movieDetails route:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 
 // dummy/test code
 app.get("/", (req, res) => {
