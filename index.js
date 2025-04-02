@@ -35,7 +35,7 @@ const getPopularMovies = async () => {
   return data;
 };
 
-app.get("/popularMovies", async (req, res) => {
+app.get("/popular_movies", async (req, res) => {
   try {
     const data = await getPopularMovies();
 
@@ -45,7 +45,7 @@ app.get("/popularMovies", async (req, res) => {
 
     res.json(data);
   } catch (error) {
-    console.error("Error in /popularMovies route:", error);
+    console.error("Error in /popular_movies route:", error);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -63,7 +63,7 @@ const getPopularTV = async () => {
   return data;
 };
 
-app.get("/popularTV", async (req, res) => {
+app.get("/popular_tv", async (req, res) => {
   try {
     const data = await getPopularTV();
 
@@ -73,7 +73,7 @@ app.get("/popularTV", async (req, res) => {
 
     res.json(data);
   } catch (error) {
-    console.error("Error in /popularMovies route:", error);
+    console.error("Error in popular_tv route:", error);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -91,7 +91,7 @@ const getMovieDetails = async (id) => {
   return data;
 };
 
-app.get("/movieDetails/:id", async (req, res) => {
+app.get("/movie_details/:id", async (req, res) => {
   const id = req.params.id;
   console.log(id);
   try {
@@ -103,7 +103,37 @@ app.get("/movieDetails/:id", async (req, res) => {
 
     res.json(data);
   } catch (error) {
-    console.error("Error in /movieDetails route:", error);
+    console.error("Error in /movie_details route:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+//Get TV Details
+const getTVdetails = async (id) => {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/tv/${id}?language=en-US`,
+    options
+  );
+
+  console.log("fetching TV Details");
+  const data = await response.json();
+
+  return data;
+};
+
+app.get("/tv_details/:id", async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  try {
+    const data = await getTVdetails(id);
+
+    if (data.error) {
+      return res.status(500).json({ error: "Failed to fetch TV details" });
+    }
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error in /tv_details route:", error);
     res.status(500).json({ error: "Server error" });
   }
 });
