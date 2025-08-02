@@ -28,9 +28,9 @@ const options = {
 };
 
 // Popular movies
-const getPopularMovies = async () => {
+const getPopularMovies = async (page = 1) => {
   const respose = await fetch(
-    "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
+    `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${page}`,
     options
   );
 
@@ -41,8 +41,9 @@ const getPopularMovies = async () => {
 };
 
 app.get("/popular_movies", async (req, res) => {
+  const page = req.query.page;
   try {
-    const data = await getPopularMovies();
+    const data = await getPopularMovies(page);
 
     if (data.error) {
       return res.status(500).json({ error: "Failed to fetch movies" });
@@ -56,21 +57,22 @@ app.get("/popular_movies", async (req, res) => {
 });
 
 //Popular TV Shows
-const getPopularTV = async () => {
+const getPopularTV = async (page) => {
   const respose = await fetch(
-    "https://api.themoviedb.org/3/tv/popular?language=en-US&page=1",
+    `https://api.themoviedb.org/3/tv/popular?language=en-US&page=${page}`,
     options
   );
 
-  console.log("fetchingPopularTV");
+  console.log("fetchingPopularTV","page="+page);
   const data = await respose.json();
 
   return data;
 };
 
 app.get("/popular_tv", async (req, res) => {
+  const page = req.query.page;
   try {
-    const data = await getPopularTV();
+    const data = await getPopularTV(page);
 
     if (data.error) {
       return res.status(500).json({ error: "Failed to fetch Popular TV" });
