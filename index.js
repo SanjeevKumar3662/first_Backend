@@ -8,10 +8,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 // console.log(port);
 
-import getPopularMovies from "./fetchCalls/popularMedia/popularMovies.js";
-import getPopularTV from "./fetchCalls/popularMedia/popularTvShows.js";
-import getMovieDetails from "./fetchCalls/MediaDetails/movieDetails.js";
-import getTVdetails from "./fetchCalls/MediaDetails/TvShowsDetails.js";
+import getPopularMovies from "./fetchCalls/movieLists/popularMovies.js";
+import getPopularTV from "./fetchCalls/tvLists/popularTvShows.js";
+import getMovieDetails from "./fetchCalls/movieLists/movieDetails.js";
+import getTVdetails from "./fetchCalls/tvLists/TvShowsDetails.js";
 
 
 app.use(
