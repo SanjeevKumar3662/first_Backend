@@ -35,7 +35,9 @@ const options = {
 
 /*
 - media -> Movies and Tv Shows
-
+- media list is working
+- mdiea details
+- check credits
 
 */
 
@@ -65,7 +67,7 @@ app.get("/media_lists/:media_type/:list_type/:page", async (req, res) => {
 });
 
 //media Details
-app.get("/movie_details/:media_type/:id", async (req, res) => {
+app.get("/media_details/:media_type/:id", async (req, res) => {
   const { media_type, id } = req.params;
 
   // const id = req.params.id;
@@ -75,18 +77,18 @@ app.get("/movie_details/:media_type/:id", async (req, res) => {
     const data = await getMediaDetails(id, media_type, options);
 
     if (data.error) {
-      return res.status(500).json({ error: "Failed to fetch movie details" });
+      return res.status(500).json({ error: "Failed to fetch media details" });
     }
 
     res.json(data);
   } catch (error) {
-    console.error("Error in /movie_details route:", error);
+    console.error("Error in /media_details route:", error);
     res.status(500).json({ error: "Server error" });
   }
 });
 
 //media Credits
-app.get("/movie_tv_credits/:media_type/:id", async (req, res) => {
+app.get("/media_credits/:media_type/:id", async (req, res) => {
   const { media_type, id } = req.params;
 
   // const id = req.params.id;
@@ -96,12 +98,12 @@ app.get("/movie_tv_credits/:media_type/:id", async (req, res) => {
     const data = await getMediaCredits(id, media_type, options);
 
     if (data.error) {
-      return res.status(500).json({ error: "Failed to fetch movie credits" });
+      return res.status(500).json({ error: "Failed to fetch media credits" });
     }
 
     res.json(data);
   } catch (error) {
-    console.error("Error in /movie_credits route:", error);
+    console.error("Error in /media_credits route:", error);
     res.status(500).json({ error: "Server error" });
   }
 });
