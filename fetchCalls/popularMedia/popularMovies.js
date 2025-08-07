@@ -1,6 +1,6 @@
 
 // Popular movies
-const getPopularMovies = async (page = 12,options) => {
+const getPopularMovies = async (page = 1,options) => {
   const respose = await fetch(
     `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${page}`,
     options
