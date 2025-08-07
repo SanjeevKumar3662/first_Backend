@@ -12,7 +12,7 @@ import getPopularMovies from "./fetchCalls/movieLists/popularMovies.js";
 import getPopularTV from "./fetchCalls/tvLists/popularTvShows.js";
 import getMovieDetails from "./fetchCalls/movieLists/movieDetails.js";
 import getTVdetails from "./fetchCalls/tvLists/TvShowsDetails.js";
-import getMovieCredits from "./fetchCalls/movieLists/movieCredits.js";
+import getMovieCredits from "./fetchCalls/movieLists/movieTvCredits.js";
 
 app.use(
   cors({
@@ -106,11 +106,12 @@ app.get("/tv_details/:id", async (req, res) => {
 });
 
 //Movie credits
-app.get("/movie_credits/:id", async (req, res) => {
+app.get("/movie_tv_credits/:media_type/:id", async (req, res) => {
   const id = req.params.id;
-  console.log(id);
+  const media_type = req.params.media_type;
+  console.log(media_type,id);
   try {
-    const data = await getMovieCredits(id, options);
+    const data = await getMovieCredits(id, media_type, options);
 
     if (data.error) {
       return res.status(500).json({ error: "Failed to fetch movie credits" });

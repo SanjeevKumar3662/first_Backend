@@ -1,7 +1,7 @@
 //movie credits
-const getMovieCredits = async (id,options) => {
+const getMovieCredits = async (id, media_type, options) => {
   const respose = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`,
+    `https://api.themoviedb.org/3/${media_type}/${id}/credits?language=en-US`,
     options
   );
 
