@@ -8,11 +8,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 // console.log(port);
 
-import getPopularMovies from "./fetchCalls/movieLists/popularMovies.js";
-import getPopularTV from "./fetchCalls/tvLists/popularTvShows.js";
-import getMovieDetails from "./fetchCalls/movieLists/movieDetails.js";
-import getTVdetails from "./fetchCalls/tvLists/TvShowsDetails.js";
-import getMovieCredits from "./fetchCalls/movieLists/movieTvCredits.js";
+import getPopularMovies from "./fetchCalls/movieLists/mediaLists.js";
+import getMovieTvDetails from "./fetchCalls/movieLists/mediaDetails.js";
+import getMovieCredits from "./fetchCalls/movieLists/mediaCredits.js";
 
 app.use(
   cors({
@@ -35,46 +33,42 @@ const options = {
   },
 };
 
-//popular movies
-app.get("/popular_movies", async (req, res) => {
-  const page = req.query.page;
+/*
+- media -> Movies and Tv Shows
+
+
+*/
+
+// ------------------------------------------------------------------------------------------------------//
+//endpoint
+
+//media lists
+app.get("/media_lists/:media_type/:page", async (req, res) => {
+  const { media_type, page } = req.params;
+  // const page = req.params.page;
+  // const media_type = req.params.media_type;
+  console.log(media_type,page);
   try {
-    const data = await getPopularMovies(page, options);
+    const data = await getPopularMovies(page, media_type, options);
 
     if (data.error) {
-      return res.status(500).json({ error: "Failed to fetch movies" });
+      return res.status(500).json({ error: "Failed to fetch movies/tv" });
     }
 
     res.json(data);
   } catch (error) {
-    console.error("Error in /popular_movies route:", error);
-    res.status(500).json({ error: "Server error" });
+    console.error("Error in /media_lists route:", error);
+    res.status(500).json({ error: "Server error: Error in /media_lists route" });
   }
 });
 
-//Popular TV Shows
-app.get("/popular_tv", async (req, res) => {
-  const page = req.query.page;
-  try {
-    const data = await getPopularTV(page, options);
-
-    if (data.error) {
-      return res.status(500).json({ error: "Failed to fetch Popular TV" });
-    }
-
-    res.json(data);
-  } catch (error) {
-    console.error("Error in popular_tv route:", error);
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
-//Get Movie Details
-app.get("/movie_details/:id", async (req, res) => {
+//Get media Details
+app.get("/movie_details/:media_type/:id", async (req, res) => {
   const id = req.params.id;
-  console.log(id);
+  const media_type = req.params.media_type;
+  console.log(media_type,id);
   try {
-    const data = await getMovieDetails(id, options);
+    const data = await getMovieTvDetails(id, media_type, options);
 
     if (data.error) {
       return res.status(500).json({ error: "Failed to fetch movie details" });
@@ -87,25 +81,7 @@ app.get("/movie_details/:id", async (req, res) => {
   }
 });
 
-//Get TV Details
-app.get("/tv_details/:id", async (req, res) => {
-  const id = req.params.id;
-  console.log(id);
-  try {
-    const data = await getTVdetails(id, options);
-
-    if (data.error) {
-      return res.status(500).json({ error: "Failed to fetch TV details" });
-    }
-
-    res.json(data);
-  } catch (error) {
-    console.error("Error in /tv_details route:", error);
-    res.status(500).json({ error: "Error in /tv_details route" });
-  }
-});
-
-//Movie credits
+//media Credits
 app.get("/movie_tv_credits/:media_type/:id", async (req, res) => {
   const id = req.params.id;
   const media_type = req.params.media_type;
@@ -124,12 +100,17 @@ app.get("/movie_tv_credits/:media_type/:id", async (req, res) => {
   }
 });
 
-// dummy/test code
-// dummy/test code
+//endpoins
+// ------------------------------------------------------------------------------------------------------//
+
+
+// ------------------------------------------------------------------------------------------------------//
 // dummy/test code
 app.get("/", (req, res) => {
   res.send("<h1>This is a Movie Database</h1>");
 });
+// dummy/test code
+// ------------------------------------------------------------------------------------------------------//
 
 //linstening
 app.listen(port, () => {
