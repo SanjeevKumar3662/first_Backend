@@ -11,5 +11,4 @@ const getMediaCredits = async (id, media_type, options) => {
   return data;
 };
 
-
 export default getMediaCredits;

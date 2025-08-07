@@ -8,9 +8,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 // console.log(port);
 
-import getPopularMovies from "./fetchCalls/movieLists/mediaLists.js";
-import getMovieTvDetails from "./fetchCalls/movieLists/mediaDetails.js";
-import getMovieCredits from "./fetchCalls/movieLists/mediaCredits.js";
+import getMediaLists from "./fetchCalls/movieLists/mediaLists.js";
+import getMediaDetails from "./fetchCalls/movieLists/mediaDetails.js";
+import getMediaCredits from "./fetchCalls/movieLists/mediaCredits.js";
 
 app.use(
   cors({
@@ -43,13 +43,13 @@ const options = {
 //endpoint
 
 //media lists
-app.get("/media_lists/:media_type/:page", async (req, res) => {
-  const { media_type, page } = req.params;
+app.get("/media_lists/:media_type/:list_type/:page", async (req, res) => {
+  const { media_type, page, list_type} = req.params;
   // const page = req.params.page;
   // const media_type = req.params.media_type;
-  console.log(media_type,page);
+  console.log(media_type, page);
   try {
-    const data = await getPopularMovies(page, media_type, options);
+    const data = await getMediaLists(page, media_type, list_type, options);
 
     if (data.error) {
       return res.status(500).json({ error: "Failed to fetch movies/tv" });
@@ -58,17 +58,21 @@ app.get("/media_lists/:media_type/:page", async (req, res) => {
     res.json(data);
   } catch (error) {
     console.error("Error in /media_lists route:", error);
-    res.status(500).json({ error: "Server error: Error in /media_lists route" });
+    res
+      .status(500)
+      .json({ error: "Server error: Error in /media_lists route" });
   }
 });
 
-//Get media Details
+//media Details
 app.get("/movie_details/:media_type/:id", async (req, res) => {
-  const id = req.params.id;
-  const media_type = req.params.media_type;
-  console.log(media_type,id);
+  const { media_type, id } = req.params;
+
+  // const id = req.params.id;
+  // const media_type = req.params.media_type;
+  console.log(media_type, id);
   try {
-    const data = await getMovieTvDetails(id, media_type, options);
+    const data = await getMediaDetails(id, media_type, options);
 
     if (data.error) {
       return res.status(500).json({ error: "Failed to fetch movie details" });
@@ -83,11 +87,13 @@ app.get("/movie_details/:media_type/:id", async (req, res) => {
 
 //media Credits
 app.get("/movie_tv_credits/:media_type/:id", async (req, res) => {
-  const id = req.params.id;
-  const media_type = req.params.media_type;
-  console.log(media_type,id);
+  const { media_type, id } = req.params;
+
+  // const id = req.params.id;
+  // const media_type = req.params.media_type;
+  console.log(media_type, id);
   try {
-    const data = await getMovieCredits(id, media_type, options);
+    const data = await getMediaCredits(id, media_type, options);
 
     if (data.error) {
       return res.status(500).json({ error: "Failed to fetch movie credits" });
@@ -102,7 +108,6 @@ app.get("/movie_tv_credits/:media_type/:id", async (req, res) => {
 
 //endpoins
 // ------------------------------------------------------------------------------------------------------//
-
 
 // ------------------------------------------------------------------------------------------------------//
 // dummy/test code

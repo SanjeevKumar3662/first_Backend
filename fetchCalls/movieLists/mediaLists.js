@@ -1,8 +1,7 @@
-
 // Popular movies
-const getMediaLists = async (page = 1, media_type,options) => {
+const getMediaLists = async (page = 1, media_type, list_type, options) => {
   const respose = await fetch(
-    `https://api.themoviedb.org/3/${media_type}/popular?language=en-US&page=${page}`,
+    `https://api.themoviedb.org/3/${media_type}/${list_type}?language=en-US&page=${page}`,
     options
   );
 
@@ -11,6 +10,5 @@ const getMediaLists = async (page = 1, media_type,options) => {
 
   return data;
 };
-
 
 export default getMediaLists;

@@ -1,4 +1,4 @@
-const getMediaTvDetails = async (id,media_type,options) => {
+const getMediaDetails = async (id, media_type, options) => {
   const response = await fetch(
     `https://api.themoviedb.org/3/${media_type}/${id}?language=en-US`,
     options
@@ -10,4 +10,4 @@ const getMediaTvDetails = async (id,media_type,options) => {
   return data;
 };
 
-export default getMediaTvDetails;
+export default getMediaDetails;
