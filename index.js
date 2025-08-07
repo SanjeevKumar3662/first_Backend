@@ -1,10 +1,14 @@
 // console.log("hello world is running");
-const express = require("express");
-require("dotenv").config();
-const cors = require("cors");
+import express from "express";
+import dotenv from "dotenv";
+dotenv.config();
+
+import cors from "cors"
 const app = express();
 const port = process.env.PORT || 3000;
-// console.log(portz);
+// console.log(port);
+
+import getPopularMovies from "./fetchCalls/popularMedia/popularMovies.js";
 
 app.use(
   cors({
@@ -27,23 +31,11 @@ const options = {
   },
 };
 
-// Popular movies
-const getPopularMovies = async (page = 1) => {
-  const respose = await fetch(
-    `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${page}`,
-    options
-  );
-
-  console.log("fetchingMovies");
-  const data = await respose.json();
-
-  return data;
-};
 
 app.get("/popular_movies", async (req, res) => {
   const page = req.query.page;
   try {
-    const data = await getPopularMovies(page);
+    const data = await getPopularMovies(page,options);
 
     if (data.error) {
       return res.status(500).json({ error: "Failed to fetch movies" });
@@ -63,7 +55,7 @@ const getPopularTV = async (page) => {
     options
   );
 
-  console.log("fetchingPopularTV","page="+page);
+  console.log("fetchingPopularTV", "page=" + page);
   const data = await respose.json();
 
   return data;
