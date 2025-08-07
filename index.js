@@ -9,6 +9,10 @@ const port = process.env.PORT || 3000;
 // console.log(port);
 
 import getPopularMovies from "./fetchCalls/popularMedia/popularMovies.js";
+import getPopularTV from "./fetchCalls/popularMedia/popularTvShows.js";
+import getMovieDetails from "./fetchCalls/MediaDetails/movieDetails.js";
+import getTVdetails from "./fetchCalls/MediaDetails/TvShowsDetails.js";
+
 
 app.use(
   cors({
@@ -31,7 +35,7 @@ const options = {
   },
 };
 
-
+//popular movies
 app.get("/popular_movies", async (req, res) => {
   const page = req.query.page;
   try {
@@ -49,22 +53,10 @@ app.get("/popular_movies", async (req, res) => {
 });
 
 //Popular TV Shows
-const getPopularTV = async (page) => {
-  const respose = await fetch(
-    `https://api.themoviedb.org/3/tv/popular?language=en-US&page=${page}`,
-    options
-  );
-
-  console.log("fetchingPopularTV", "page=" + page);
-  const data = await respose.json();
-
-  return data;
-};
-
 app.get("/popular_tv", async (req, res) => {
   const page = req.query.page;
   try {
-    const data = await getPopularTV(page);
+    const data = await getPopularTV(page,options);
 
     if (data.error) {
       return res.status(500).json({ error: "Failed to fetch Popular TV" });
@@ -78,23 +70,11 @@ app.get("/popular_tv", async (req, res) => {
 });
 
 //Get Movie Details
-const getMovieDetails = async (id) => {
-  const response = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
-    options
-  );
-
-  console.log("fetchingMovieDetails");
-  const data = await response.json();
-
-  return data;
-};
-
 app.get("/movie_details/:id", async (req, res) => {
   const id = req.params.id;
   console.log(id);
   try {
-    const data = await getMovieDetails(id);
+    const data = await getMovieDetails(id,options);
 
     if (data.error) {
       return res.status(500).json({ error: "Failed to fetch movie details" });
@@ -108,23 +88,11 @@ app.get("/movie_details/:id", async (req, res) => {
 });
 
 //Get TV Details
-const getTVdetails = async (id) => {
-  const response = await fetch(
-    `https://api.themoviedb.org/3/tv/${id}?language=en-US`,
-    options
-  );
-
-  console.log("fetching TV Details");
-  const data = await response.json();
-
-  return data;
-};
-
 app.get("/tv_details/:id", async (req, res) => {
   const id = req.params.id;
   console.log(id);
   try {
-    const data = await getTVdetails(id);
+    const data = await getTVdetails(id,options);
 
     if (data.error) {
       return res.status(500).json({ error: "Failed to fetch TV details" });
@@ -133,7 +101,7 @@ app.get("/tv_details/:id", async (req, res) => {
     res.json(data);
   } catch (error) {
     console.error("Error in /tv_details route:", error);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Error in /tv_details route" });
   }
 });
 
@@ -142,12 +110,6 @@ app.get("/", (req, res) => {
   res.send("<h1>This is a Movie Database</h1>");
 });
 
-app.get("/movieNames", (req, res) => {
-  res.send("<h1>we will add movies later!</h1>");
-});
-app.get("/TvNames", (req, res) => {
-  res.send("<h1>we will add TVs later! </h1>");
-});
 
 //linstening
 app.listen(port, () => {
