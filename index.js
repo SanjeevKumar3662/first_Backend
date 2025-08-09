@@ -15,10 +15,11 @@ import getMediaCredits from "./fetchCalls/movieLists/mediaCredits.js";
 app.use(
   cors({
     origin: [
+      // "http://127.0.0.1:5500",
+      // "https://tmdb-project-react.vercel.app",
       "https://my-mdb-lemon.vercel.app",
-      "http://127.0.0.1:5500",
       "http://localhost:5173",
-      "https://tmdb-project-react.vercel.app",
+      `https://sanjeevsmdb.vercel.app`,
     ],
     optionsSuccessStatus: 200,
   })
@@ -46,7 +47,7 @@ const options = {
 
 //media lists
 app.get("/media_lists/:media_type/:list_type/:page", async (req, res) => {
-  const { media_type, page, list_type} = req.params;
+  const { media_type, page, list_type } = req.params;
   // const page = req.params.page;
   // const media_type = req.params.media_type;
   console.log(media_type, page);
