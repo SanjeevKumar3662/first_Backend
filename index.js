@@ -11,6 +11,7 @@ const port = process.env.PORT || 3000;
 import getMediaLists from "./fetchCalls/movieLists/mediaLists.js";
 import getMediaDetails from "./fetchCalls/movieLists/mediaDetails.js";
 import getMediaCredits from "./fetchCalls/movieLists/mediaCredits.js";
+import getSearchResults from "./fetchCalls/search/search.js";
 
 app.use(
   cors({
@@ -105,6 +106,25 @@ app.get("/media_credits/:media_type/:id", async (req, res) => {
     res.json(data);
   } catch (error) {
     console.error("Error in /media_credits route:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+//search fucntion
+app.get("/search/:query_type/:query/:page", async (req, res) => {
+  const { query_type, query, page } = req.params;
+
+  console.log(query_type, query, page);
+  try {
+    const data = await getSearchResults(options, query_type, query, page);
+
+    if (data.error) {
+      return res.status(500).json({ error: "Failed to fetch search result" });
+    }
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error in search route:", error);
     res.status(500).json({ error: "Server error" });
   }
 });
