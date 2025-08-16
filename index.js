@@ -131,12 +131,12 @@ app.get("/search/:query_type/:query/:page", async (req, res) => {
 });
 
 //media content like videos
-app.get("/media_content/:media_type/:id", async (req, res) => {
-  const { media_type, id } = req.params;
+app.get("/media_content/:media_type/:id/:content_type", async (req, res) => {
+  const { media_type, id, content_type } = req.params;
 
-  console.log(media_type, id);
+  console.log(media_type, id,content_type);
   try {
-    const data = await getMediaContent(options, id, media_type);
+    const data = await getMediaContent(options, id, media_type, content_type);
 
     if (data.error) {
       return res.status(500).json({ error: "Failed to fetch media content" });
