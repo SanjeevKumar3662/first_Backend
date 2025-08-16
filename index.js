@@ -12,6 +12,7 @@ import getMediaLists from "./fetchCalls/movieLists/mediaLists.js";
 import getMediaDetails from "./fetchCalls/movieLists/mediaDetails.js";
 import getMediaCredits from "./fetchCalls/movieLists/mediaCredits.js";
 import getSearchResults from "./fetchCalls/search/search.js";
+import getMediaContent from "./fetchCalls/mediaContent/mediaContent.js";
 
 app.use(
   cors({
@@ -129,6 +130,26 @@ app.get("/search/:query_type/:query/:page", async (req, res) => {
   }
 });
 
+//media content like videos
+app.get("/media_content/:media_type/:id", async (req, res) => {
+  const { media_type, id } = req.params;
+
+  console.log(media_type, id);
+  try {
+    const data = await getMediaContent(options, id, media_type);
+
+    if (data.error) {
+      return res.status(500).json({ error: "Failed to fetch media content" });
+    }
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error in /media_content route:", error);
+    res.status(500).json({
+      error: `Server error, while getting media_content of ${media_type}`,
+    });
+  }
+});
 //endpoins
 // ------------------------------------------------------------------------------------------------------//
 
