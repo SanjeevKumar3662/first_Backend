@@ -195,7 +195,10 @@ app.get("/", (req, res) => {
   res.send(`
     <html>
       <head>
-        <title>🎬 Sanjeev's Movie Database API</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sanjeev's MDB API</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'><text y='32' font-size='32'>🎬</text></svg>">
         <style>
           body { font-family: Arial, sans-serif; margin: 40px; background: #f9f9f9; color: #333; }
           h1 { color: #2c3e50; }
